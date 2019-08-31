@@ -1,8 +1,3 @@
-msft <- read.csv('MSFT.csv')
-names(msft)
-names(msft) <- c("date", "open", "high", "low", "close", "adj_close", "volume")
-library(tidyverse)
-
 ranges_from_starts_lengths <- function(start, ends) {
   return(start:((ends)-1))
 }
@@ -29,13 +24,6 @@ regex_row_matcher <- function(df, ptn, defs) {
   return(ret_df)
   
 }
-
-msft %>% 
-  arrange(date) %>% 
-  mutate(ds = ifelse(adj_close>lag(adj_close), 'U', 'D')) %>% 
-  mutate(ds = ifelse(is.na(ds), '0', ds)) %>% 
-  regex_row_matcher('([D]{4,})', .$ds) %>% 
-  head(n=20)
 
 
 

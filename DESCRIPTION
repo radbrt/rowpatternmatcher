@@ -1,0 +1,14 @@
+Package: rowpatternmatcher
+Title: Select rows based on pattern
+Version: 0.1
+Authors@R: person("Radbrt", "zu Hohenzolle", email = "dev_null@cerx.co",
+                  role = c("aut", "cre"))
+Description: Return rows not based not only on the row itself, but its relationship to previous and following rows. Think of it as regex for dataframes.
+Depends: R (>= 3.1.0)
+License: TBD
+Encoding: UTF-8
+LazyData: true
+Imports:
+    dplyr,
+    purrr
+RoxygenNote: 6.1.1.9000
