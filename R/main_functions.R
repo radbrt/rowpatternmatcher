@@ -1,7 +1,17 @@
+#' Match ranges
+#'
+#' This is a convenience function that recieves two integers (a, b), and returns the range a:b-1
+#' @param start The start of the range
+#' @param ends The end of the range, endexclusive
 ranges_from_starts_lengths <- function(start, ends) {
   return(start:((ends)-1))
 }
 
+#' Match number
+#'
+#' This is an internal function that returns an array of match-numbers, in the case that 
+#' there are several matches in one "string". 
+#' @param matchlist Output of the mapped `ranges_from_starts_lengths` function
 match_number <- function(matchlist) {
   cr <- c()
   for (i in 1:length(matchlist)) {
