@@ -1,5 +1,5 @@
 #' Match ranges
-#'
+#' DEPRECATED
 #' This is a convenience function that recieves two integers (a, b), and returns the range a:b-1
 #' @param start The start of the range
 #' @param ends The end of the range, endexclusive
@@ -31,12 +31,14 @@ match_number <- function(matchlist) {
 #' @examples
 #' regex_row_matcher(df, "([D]{4,})", .$ds)
 regex_row_matcher <- function(df, ptn, defs) {
-  
-  defstring <- paste(defs, collapse='')
+  edefs <- enquo(defs)
+  defstring <- funs(paste(!!edefs, collapse=''))
+  print(edefs)
   result <- gregexpr(ptn, defstring, perl=TRUE)
   cstarts <- attr(result[[1]], 'capture.start')
   cends <- attr(result[[1]], 'capture.start') + attr(result[[1]], 'capture.length')
-  ranges <- map2(cstarts, cends, ranges_from_starts_lengths)
+  ranges <- map2(cstarts, cends, ~ .x:.y-1)
+  print(ranges)
   match_numbers <- match_number(ranges)
   arranges <- unique(unlist(ranges))
   ret_df <- df[arranges,]
