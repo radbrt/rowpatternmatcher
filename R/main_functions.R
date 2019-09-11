@@ -65,7 +65,16 @@ subset_from_ranges <- function(df, ranges) {
 }
 
 # match_rows() kanskje mest talende navnet
-# ex: match_rows(df, variable_name, quoted_rx_pattern)
+#' Row matcher
+#'
+#' This function accepts a dataframe, regex-pattern and column name for definitions, and return matching rows
+#' @param df Sorted and grouped dataframe to filter
+#' @param definitions Column containing the definition of rows
+#' @param rx Simple regex-like statement to filter for - quoted.
+#' @keywords match_recognize
+#' @export
+#' @examples # TODO: REMOVE WHITESPACE BERFORE MATCHING
+# ex: match_rows(df, my_definitions_col, "UP{4,} DOWN{4,}")
 match_rows <- function(df, definitions, rx) {
   #rx <- sort(unique(as.character(strsplit(rx, ' '))))
   
