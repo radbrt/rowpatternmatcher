@@ -1,9 +1,23 @@
 # NOTE:
 # THIS IS NOT UNIT TESTS - those haven't arrived yet...
 
-msft <- read.csv('MSFT.csv')
-names(msft)
-names(msft) <- c("date", "open", "high", "low", "close", "adj_close", "volume")
+msft <- read.csv('raw_data/MSFT.csv')
+msft$ticker <- "MSFT"
+amzn <- read.csv('raw_data/AMZN.csv')
+amzn$ticker <- "AMZN"
+aapl <- read.csv('raw_data/AAPL.csv')
+aapl$ticker <- "AAPL"
+stocks <- dplyr::bind_rows(msft, amzn, aapl)
+
+tail(stocks)
+names(stocks)
+names(stocks) <- c("date", "open", "high", "low", "close", "adj_close", "volume", "ticker")
+
+save(stocks, file = "data/stocks.RData")
+rm(stocks)
+load('data/stocks.RData')
+
+
 library(tidyverse)
 
 
