@@ -1,2 +1,8 @@
 language: r
 cache: packages
+
+branches:
+  only:
+    - master
+
+warnings_are_errors: false

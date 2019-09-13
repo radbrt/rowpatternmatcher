@@ -1,5 +1,7 @@
 # Row pattern matching in R
 
+![Build status](https://travis-ci.com/radbrt/rowpatternmatcher.svg?token=MaFbz1A4Q6wD2sqZL7pK&branch=master "Travis Build status")
+
 Welcome, and sorry for the derangement.
 
 ## What is this?
