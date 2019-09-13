@@ -32,7 +32,6 @@ stocks %>%
 
 
 
-
 # Eneste måten å forbedre må være en mutate+case_when som har omtrent signaturen under
 # define_rows(mdf, nv, e+s>10 ~ 'whot', e+s>3 ~ 'nah')
 
