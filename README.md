@@ -41,6 +41,14 @@ This looks for occurences of the Microsoft stock increasing at least four consec
 
 There is also an "advanced mode", which does not do any regex parsing and therefore allows for more advanced regex patterns to be specified. The downside of this though, is that the definitions created can only consist of a single character. This really shows that what happens under the hood is pure regex - and one of the simplifying tricks is to have a 1-to-1 mapping between the text string containing the definitions and the rows. Sorry for the inconvenience, this is duct-tape not magic.
 
+```
+stocks %>% 
+               filter(ticker=='MSFT') %>% 
+               arrange(date) %>% 
+               mutate(ds = ifelse(adj_close>lag(adj_close), 'U', 'D')) %>% 
+               mutate(ds = ifelse(is.na(ds), '0', ds)) %>% 
+               regex_row_matcher('([D]{4,})', ds) 
+```
 
 ## My interest is piqued, where can I learn more?
 
