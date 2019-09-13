@@ -27,17 +27,25 @@ OK, calm down. A basic example, using the stocks data that come with the package
 ```
 stocks %>% 
   filter(ticker=='MSFT') %>% 
-  arrange(date) %>% 
+  arrange(date) %>% #2
   mutate( defns = 
            case_when(
              adj_close>lag(adj_close) ~ 'UP',
              TRUE ~ 'DOWN'
-           )
+           ) #3
   ) %>% 
   match_rows(defns, "UP{4,} DOWN{3,}")
 ```
 
-This looks for occurences of the Microsoft stock increasing at least four consecutive days, and then decreasing at least three consecutive days. Only the rows that are part of this "peak" will be included in the output. The resulting data frame will have 14 rows that constitute two different matches. A separate column, `match_number` denoting the match occurence is automatically added. In future releases the variable name can be specified by the user.
+1 - `filter`: The dataset contains three different stocks, we focus on Microsoft for now
+2 - `arrange`: The order of rows is important when looking for sequence of events :)
+3 - `mutate` and `case_when`: Here we create the definitions in a new column named `defns` 
+
+So far we are using standard `dplyr` functions, no need to reinvent the wheel.
+
+4 - `match_rows`: This is where the magic happens. The first argument is the dataframe which in our example is being piped in. The second argument is the column name containing the definitions (created by the `mutate` statement), and the third argument is a regex-like string containing the pattern we are looking for.
+
+This pattern looks for occurences of the Microsoft stock increasing at least four consecutive days, and then decreasing at least three consecutive days. Only the rows that are part of this "peak" will be included in the output. The resulting data frame will have 14 rows that constitute two different matches. A separate column, `match_number` denoting the match occurence is automatically added. In future releases the variable name can be specified by the user.
 
 There is also an "advanced mode", which does not do any regex parsing and therefore allows for more advanced regex patterns to be specified. The downside of this though, is that the definitions created can only consist of a single character. This really shows that what happens under the hood is pure regex - and one of the simplifying tricks is to have a 1-to-1 mapping between the text string containing the definitions and the rows. Sorry for the inconvenience, this is duct-tape not magic.
 
