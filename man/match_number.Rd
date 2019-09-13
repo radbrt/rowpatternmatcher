@@ -2,7 +2,9 @@
 % Please edit documentation in R/main_functions.R
 \name{match_number}
 \alias{match_number}
-\title{Match number}
+\title{Match number
+This is an internal function that returns an array of match-numbers, in the case that 
+there are several matches in one "string".}
 \usage{
 match_number(matchlist)
 }
@@ -10,6 +12,7 @@ match_number(matchlist)
 \item{matchlist}{Output of the mapped `ranges_from_starts_lengths` function}
 }
 \description{
+Match number
 This is an internal function that returns an array of match-numbers, in the case that 
 there are several matches in one "string".
 }

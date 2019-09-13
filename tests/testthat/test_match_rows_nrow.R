@@ -1,4 +1,7 @@
 #load(file='../data/stocks.RData')
+library(dplyr)
+library(stringr)
+library(purrr)
 
 test_that("match_rows returns number of rows", {
   # WILDCARD + match_rows
@@ -13,15 +16,15 @@ test_that("match_rows returns number of rows", {
                  ) %>% 
                  match_rows(defns, " whatevz UP{4,}") %>% 
                  nrow(), 77)
-  
-  # raw regex 'regex_row_matcher'
-  expect_equal(stocks %>% 
-                 filter(ticker=='MSFT') %>% 
-                 arrange(date) %>% 
-                 mutate(ds = ifelse(adj_close>lag(adj_close), 'U', 'D')) %>% 
-                 mutate(ds = ifelse(is.na(ds), '0', ds)) %>% 
-                 regex_row_matcher('([D]{4,})', ds) %>% 
-                 nrow(), 8)
 })
 
-
+test_that("regex_raw_matcher returns number of rows", {
+# raw regex 'regex_row_matcher'
+expect_equal(stocks %>% 
+               filter(ticker=='MSFT') %>% 
+               arrange(date) %>% 
+               mutate(ds = ifelse(adj_close>lag(adj_close), 'U', 'D')) %>% 
+               mutate(ds = ifelse(is.na(ds), '0', ds)) %>% 
+               regex_row_matcher('([D]{4,})', ds) %>% 
+               nrow(), 8)
+})

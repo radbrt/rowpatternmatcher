@@ -2,7 +2,9 @@
 % Please edit documentation in R/main_functions.R
 \name{ranges_from_starts_lengths}
 \alias{ranges_from_starts_lengths}
-\title{Match ranges}
+\title{Match ranges
+DEPRECATED
+This is a convenience function that recieves two integers (a, b), and returns the range a:b-1}
 \usage{
 ranges_from_starts_lengths(start, ends)
 }
@@ -12,5 +14,7 @@ ranges_from_starts_lengths(start, ends)
 \item{ends}{The end of the range, endexclusive}
 }
 \description{
+Match ranges
+DEPRECATED
 This is a convenience function that recieves two integers (a, b), and returns the range a:b-1
 }
