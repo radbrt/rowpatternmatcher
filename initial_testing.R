@@ -21,12 +21,13 @@ load('data/stocks.RData')
 library(tidyverse)
 
 
-msft %>% 
+stocks %>% 
+  filter(ticker=='MSFT') %>% 
   arrange(date) %>% 
   mutate(ds = ifelse(adj_close>lag(adj_close), 'U', 'D')) %>% 
   mutate(ds = ifelse(is.na(ds), '0', ds)) %>% 
   regex_row_matcher('([D]{4,})', ds) %>% 
-  head(n=20)
+  nrow()
 
 
 
@@ -36,7 +37,8 @@ msft %>%
 # define_rows(mdf, nv, e+s>10 ~ 'whot', e+s>3 ~ 'nah')
 
 # WILDCARD POC
-msft %>% 
+stocks %>% 
+  filter(ticker=='MSFT') %>% 
   arrange(date) %>% 
   mutate( defns = 
             case_when(
@@ -45,7 +47,7 @@ msft %>%
             )
   ) %>% 
   match_rows(defns, " whatevz UP{4,}") %>% 
-  head(n=20)
+  nrow()
 
 
 

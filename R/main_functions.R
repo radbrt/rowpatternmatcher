@@ -49,7 +49,7 @@ regex_row_matcher <- function(df, ptn, defs) {
   # returns row ranges e.g. c(1:4,13:17) based on string of definitions and regex-pattern 
   ranges <- row_ranges(defstring, ptn)
 
-  subset_from_ranges(df, ranges)
+  ret_df <- subset_from_ranges(df, ranges)
   ret_df$match_number <- match_number(ranges)
   return(ret_df)
   
