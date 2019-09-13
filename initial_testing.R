@@ -1,9 +1,23 @@
 # NOTE:
 # THIS IS NOT UNIT TESTS - those haven't arrived yet...
 
-msft <- read.csv('MSFT.csv')
-names(msft)
-names(msft) <- c("date", "open", "high", "low", "close", "adj_close", "volume")
+msft <- read.csv('raw_data/MSFT.csv')
+msft$ticker <- "MSFT"
+amzn <- read.csv('raw_data/AMZN.csv')
+amzn$ticker <- "AMZN"
+aapl <- read.csv('raw_data/AAPL.csv')
+aapl$ticker <- "AAPL"
+stocks <- dplyr::bind_rows(msft, amzn, aapl)
+
+tail(stocks)
+names(stocks)
+names(stocks) <- c("date", "open", "high", "low", "close", "adj_close", "volume", "ticker")
+
+save(stocks, file = "data/stocks.RData")
+rm(stocks)
+load('data/stocks.RData')
+
+
 library(tidyverse)
 
 
@@ -21,6 +35,7 @@ msft %>%
 # Eneste måten å forbedre må være en mutate+case_when som har omtrent signaturen under
 # define_rows(mdf, nv, e+s>10 ~ 'whot', e+s>3 ~ 'nah')
 
+# WILDCARD POC
 msft %>% 
   arrange(date) %>% 
   mutate( defns = 
@@ -29,5 +44,10 @@ msft %>%
               TRUE ~ 'DOWN'
             )
   ) %>% 
-  match_rows(defns, "UP{4,}DOWN{1,}") %>% 
+  match_rows(defns, " whatevz UP{4,}") %>% 
   head(n=20)
+
+
+
+
+
