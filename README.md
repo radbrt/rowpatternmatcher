@@ -37,8 +37,10 @@ stocks %>%
   match_rows(defns, "UP{4,} DOWN{3,}")
 ```
 
-1 - `filter`: The dataset contains three different stocks, we focus on Microsoft for now
+1 - `filter`: The dataset contains three different stocks, we focus on Microsoft for now.
+
 2 - `arrange`: The order of rows is important when looking for sequence of events :)
+
 3 - `mutate` and `case_when`: Here we create the definitions in a new column named `defns` 
 
 So far we are using standard `dplyr` functions, no need to reinvent the wheel.
