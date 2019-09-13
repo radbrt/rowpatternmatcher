@@ -51,7 +51,7 @@ So far we are using standard `dplyr` functions, no need to reinvent the wheel.
 
 This pattern looks for occurences of the Microsoft stock increasing at least four consecutive days, and then decreasing at least three consecutive days. Only the rows that are part of this "peak" will be included in the output. The resulting data frame will have 14 rows that constitute two different matches. A separate column, `match_number` denoting the match occurence is automatically added. In future releases the variable name can be specified by the user.
 
-There is also an "advanced mode", which does not do any regex parsing and therefore allows for more advanced regex patterns to be specified. The downside of this though, is that the definitions created can only consist of a single character. This really shows that what happens under the hood is pure regex - and one of the simplifying tricks is to have a 1-to-1 mapping between the text string containing the definitions and the rows. Sorry for the inconvenience, this is duct-tape not magic.
+There is also an "advanced mode", which does not do any pre-parsing of the regex and therefore allows for more advanced regex patterns to be specified. The downside of this though, is that the definitions created can only consist of a single character. This really shows that what happens under the hood is pure regex, and one of the simplifying tricks is to have a 1-to-1 mapping between the text string containing the definitions and the rows. Sorry for the inconvenience, this is duct-tape not magic.
 
 ```
 stocks %>% 
@@ -61,8 +61,8 @@ stocks %>%
   mutate(ds = ifelse(is.na(ds), '0', ds)) %>% 
   regex_row_matcher('([D]{4,})', ds) 
 ```
-PS: The function name, `regex_row_matcher` is subject to change soon...
+PS: The function name, `regex_row_matcher` is subject to change soon, and the signature made consistent with `match_rows`
 
-## My interest is piqued, where can I learn more?
+## My interest is piqued, good sir! Where may I inquire further on this titillating topic?
 
 If you want to learn more about row pattern matching as implemented by Oracle, you can take a look at their documentation at https://docs.oracle.com/database/121/DWHSG/pattern.htm#DWHSG8956.
