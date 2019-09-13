@@ -3,7 +3,11 @@
 Welcome, and sorry for the derangement.
 
 ## What is this?
+<<<<<<< HEAD
 This R package does row pattern matching with a tidyverse-compliant syntax. What is row pattern matching, you ask? The concept was first developed (as far as I know) by Oracle, and was included in the ANSI SQL:2016 standard. But so far very few databases support it - despite it being one of the most creative new features in a while. The basic idea is to let you filter a dataset not based conditions that can be satisfied by a single row alone, but by the pattern that the rows constitute. 
+=======
+This R package does row pattern matching with a tidyverse-compliant syntax. What is row pattern matching, you ask? The concept was first developed (as far as I know) by Oracle, and was included in the ANSI SQL:2016 standard. But so far very few databases support it - despite it being one of the most creative new features in a while. The basic idea is to let you filter a dataset not based on single rows, but based on the pattern between rows. 
+>>>>>>> c57fa347d84d6092ae25f0e21a93b27082489d55
 
 ## When is it useful?
 The canonical example is stock prices: 
