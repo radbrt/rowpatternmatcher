@@ -86,7 +86,7 @@ match_rows <- function(df, definitions, rx) {
   # Extract nicknames/definitions from pattern
   rx_name_ptn <- "[a-zA-Z][a-zA-Z0-9]*"
   rx_names <- str_extract_all(rx, rx_name_ptn)[[1]]
-  
+
   # List of all definitions
   all_nicks <- sort(unique(c(rx_names, coldefs)))
   if(length(all_nicks)>10) stop("There are more than 10 different definitions, we are not able to handle that yet...")
@@ -97,21 +97,24 @@ match_rows <- function(df, definitions, rx) {
     warning("Your pattern includes definitions that are not in the data, and will not match any rows")
   }
   
+  rx_parsed <- rx
   # replace regex with appreviated version
   for (a in all_nicks) {
-    rx_names <- str_replace_all(rx, a, as.character(match(a, all_nicks)))
+    rx_parsed <- str_replace_all(rx_parsed, a, as.character(match(a, all_nicks)))
   }
+  
   
   # replace definition column (not column itself, but copy) with single-character versions
   # coldefs <- c("THIS", "whatevz", "wtf") # column
+  
   defs_encoded <- pull(df, !!definitions)
   for (i in 1:length(defs_encoded)) {
     defs_encoded[i] <- as.character( match(defs_encoded[i], all_nicks) )
   }
-  
+
   defstring <- paste(defs_encoded, collapse='')
   
-  ranges <- row_ranges(defstring, rx_names)
+  ranges <- row_ranges(defstring, rx_parsed)
 
   # Subset data from ranges
   ret_df <- subset_from_ranges(df, ranges)
