@@ -16,7 +16,4 @@ match_rows(df, definitions, rx)
 \description{
 This function accepts a dataframe, regex-pattern and column name for definitions, and return matching rows
 }
-\examples{
-# TODO: REMOVE WHITESPACE BERFORE MATCHING
-}
 \keyword{match_recognize}

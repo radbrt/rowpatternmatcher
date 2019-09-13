@@ -41,7 +41,9 @@ match_number <- function(matchlist) {
 #' @keywords match_recognize
 #' @export
 #' @examples
-#' regex_row_matcher(df, "([D]{4,})", .$ds)
+#' \dontrun{
+#' regex_row_matcher(stocks, "([D]{4,})", ds)
+#' }
 regex_row_matcher <- function(df, ptn, defs) {
   defs <- enquo(defs)
   defstring <- paste(pull(df, !!defs), collapse='')
@@ -73,7 +75,7 @@ subset_from_ranges <- function(df, ranges) {
 #' @param rx Simple regex-like statement to filter for - quoted.
 #' @keywords match_recognize
 #' @export
-#' @examples # TODO: REMOVE WHITESPACE BERFORE MATCHING
+#' @examples
 # ex: match_rows(df, my_definitions_col, "UP{4,} DOWN{4,}")
 match_rows <- function(df, definitions, rx) {
   #rx <- sort(unique(as.character(strsplit(rx, ' '))))

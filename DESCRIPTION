@@ -10,7 +10,9 @@ Encoding: UTF-8
 LazyData: true
 Imports:
     dplyr,
-    purrr
+    purrr,
+    stringr,
+    rlang
 Suggests:
     testthat
 RoxygenNote: 6.1.1.9000

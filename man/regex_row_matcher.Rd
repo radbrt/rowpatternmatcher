@@ -17,6 +17,8 @@ regex_row_matcher(df, ptn, defs)
 This function accepts a dataframe, regex-pattern and column name for definitions, and return matching rows
 }
 \examples{
-regex_row_matcher(df, "([D]{4,})", .$ds)
+\dontrun{
+regex_row_matcher(stocks, "([D]{4,})", ds)
+}
 }
 \keyword{match_recognize}

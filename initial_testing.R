@@ -45,7 +45,7 @@ stocks %>%
               TRUE ~ 'DOWN'
             )
   ) %>% 
-  match_rows(defns, " whatevz UP{4,}") %>% 
+  match_rows(defns, "UP{4,}DOWN{3,}") %>% 
   nrow()
 
 
