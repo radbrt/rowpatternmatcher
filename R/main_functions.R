@@ -86,23 +86,32 @@ match_rows <- function(df, definitions, rx) {
   # Extract nicknames/definitions from pattern
   rx_name_ptn <- "[a-zA-Z][a-zA-Z0-9]*"
   rx_names <- str_extract_all(rx, rx_name_ptn)[[1]]
-
-  # List of all definitions
-  all_nicks <- sort(unique(c(rx_names, coldefs)))
-  if(length(all_nicks)>10) stop("There are more than 10 different definitions, we are not able to handle that yet...")
-  
-  # Little warning if you define things that are not there - can be benign and desired, might remove in future.
-  # MATCH_RECOGNIZE matches anything to undefined nicks, would be nice to incorporate this possibility
-  if (length( which(!all_nicks %in% coldefs) )>0) {
-    warning("Your pattern includes definitions that are not in the data, and will not match any rows")
+  rx_parsed <- rx
+  wildcards <- setdiff(rx_names, unique(coldefs))
+  #print(wildcards)
+  if (length(wildcards)>0) {
+    for (w in wildcards) {
+      rx_parsed <- str_replace_all(rx_parsed, w, '\\.')
+    }
   }
   
-  rx_parsed <- rx
+  # List of all definitions
+  all_nicks <- sort(unique(c(rx_names, coldefs)))
+  #all_nicks <- setdiff(all_nicks, wildcards)
+  if(length(all_nicks)>10) stop("There are more than 10 different definitions, we are not able to handle that yet...")
+  
+  
   # replace regex with appreviated version
   for (a in all_nicks) {
     rx_parsed <- str_replace_all(rx_parsed, a, as.character(match(a, all_nicks)))
   }
   
+
+  
+  # spaces are great when writing pseudoregex, need to remove before parsing as real regex
+  rx_parsed <- str_replace_all(rx_parsed, ' ', '')
+  
+  #print(rx_parsed)
   
   # replace definition column (not column itself, but copy) with single-character versions
   # coldefs <- c("THIS", "whatevz", "wtf") # column

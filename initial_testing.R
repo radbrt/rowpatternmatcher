@@ -21,6 +21,7 @@ msft %>%
 # Eneste måten å forbedre må være en mutate+case_when som har omtrent signaturen under
 # define_rows(mdf, nv, e+s>10 ~ 'whot', e+s>3 ~ 'nah')
 
+# WILDCARD POC
 msft %>% 
   arrange(date) %>% 
   mutate( defns = 
@@ -29,5 +30,10 @@ msft %>%
               TRUE ~ 'DOWN'
             )
   ) %>% 
-  match_rows(defns, "UP{4,}DOWN{1,}") %>% 
+  match_rows(defns, " whatevz UP{4,}") %>% 
   head(n=20)
+
+
+
+
+
