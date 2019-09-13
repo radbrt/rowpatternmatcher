@@ -43,12 +43,13 @@ There is also an "advanced mode", which does not do any regex parsing and theref
 
 ```
 stocks %>% 
-               filter(ticker=='MSFT') %>% 
-               arrange(date) %>% 
-               mutate(ds = ifelse(adj_close>lag(adj_close), 'U', 'D')) %>% 
-               mutate(ds = ifelse(is.na(ds), '0', ds)) %>% 
-               regex_row_matcher('([D]{4,})', ds) 
+  filter(ticker=='MSFT') %>% 
+  arrange(date) %>% 
+  mutate(ds = ifelse(adj_close>lag(adj_close), 'U', 'D')) %>% 
+  mutate(ds = ifelse(is.na(ds), '0', ds)) %>% 
+  regex_row_matcher('([D]{4,})', ds) 
 ```
+PS: The function name, `regex_row_matcher` is subject to change soon...
 
 ## My interest is piqued, where can I learn more?
 
