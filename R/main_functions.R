@@ -38,6 +38,7 @@ match_number <- function(matchlist) {
 #' @param df Sorted and grouped dataframe to filter
 #' @param ptn Perl-regex pattern to look for, based on the definitions created
 #' @param defs Column containing the definition of rows
+#' @param match_name Optional column name for match-number, defaults to NULL.
 #' @keywords match_recognize
 #' @export
 #' @examples
@@ -79,6 +80,7 @@ subset_from_ranges <- function(df, ranges) {
 #' @param df Sorted and grouped dataframe to filter
 #' @param definitions Column containing the definition of rows
 #' @param rx Simple regex-like statement to filter for - quoted.
+#' @param match_name Optional column name for match-number, defaults to NULL.
 #' @keywords match_recognize
 #' @export
 #' @examples

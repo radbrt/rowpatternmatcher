@@ -4,7 +4,7 @@
 \alias{match_rows_raw}
 \title{Regex row matcher}
 \usage{
-match_rows_raw(df, defs, ptn)
+match_rows_raw(df, defs, ptn, match_name = NULL)
 }
 \arguments{
 \item{df}{Sorted and grouped dataframe to filter}
@@ -12,6 +12,8 @@ match_rows_raw(df, defs, ptn)
 \item{defs}{Column containing the definition of rows}
 
 \item{ptn}{Perl-regex pattern to look for, based on the definitions created}
+
+\item{match_name}{Optional column name for match-number, defaults to NULL.}
 }
 \description{
 This function accepts a dataframe, regex-pattern and column name for definitions, and return matching rows

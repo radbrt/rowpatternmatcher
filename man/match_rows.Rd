@@ -4,7 +4,7 @@
 \alias{match_rows}
 \title{Row matcher}
 \usage{
-match_rows(df, definitions, rx)
+match_rows(df, definitions, rx, match_name = NULL)
 }
 \arguments{
 \item{df}{Sorted and grouped dataframe to filter}
@@ -12,6 +12,8 @@ match_rows(df, definitions, rx)
 \item{definitions}{Column containing the definition of rows}
 
 \item{rx}{Simple regex-like statement to filter for - quoted.}
+
+\item{match_name}{Optional column name for match-number, defaults to NULL.}
 }
 \description{
 This function accepts a dataframe, regex-pattern and column name for definitions, and return matching rows
