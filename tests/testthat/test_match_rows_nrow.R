@@ -1,7 +1,7 @@
-#load(file='../data/stocks.RData')
 library(dplyr)
 library(stringr)
 library(purrr)
+library(rlang)
 
 test_that("match_rows returns number of rows", {
   # WILDCARD + match_rows

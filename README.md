@@ -49,7 +49,7 @@ So far we are using standard `dplyr` functions, no need to reinvent the wheel.
 
 4 - `match_rows`: This is where the magic happens. The first argument is the dataframe which in our example is being piped in. The second argument is the column name containing the definitions (created by the `mutate` statement), and the third argument is a regex-like string containing the pattern we are looking for.
 
-This pattern looks for occurences of the Microsoft stock increasing at least four consecutive days, and then decreasing at least three consecutive days. Only the rows that are part of this "peak" will be included in the output. The resulting data frame will have 14 rows that constitute two different matches. A separate column, `match_number` denoting the match occurence is automatically added. In future releases the variable name can be specified by the user.
+This pattern looks for occurences of the Microsoft stock increasing at least four consecutive days, and then decreasing at least three consecutive days. Only the rows that are part of this "peak" will be included in the output. The resulting data frame will have 14 rows that constitute two different matches. If you want to see what match number each line is a part of, you can give a value to the argument `match_name`, an optional last argument where you can specify the name you want to give this new column.
 
 There is also an "advanced mode", which does not do any pre-parsing of the regex and therefore allows for more advanced regex patterns to be specified. The downside of this though, is that the definitions created can only consist of a single character. This really shows that what happens under the hood is pure regex, and one of the simplifying tricks is to have a 1-to-1 mapping between the text string containing the definitions and the rows. Sorry for the inconvenience, this is duct-tape not magic.
 
@@ -59,9 +59,9 @@ stocks %>%
   arrange(date) %>% 
   mutate(ds = ifelse(adj_close>lag(adj_close), 'U', 'D')) %>% 
   mutate(ds = ifelse(is.na(ds), '0', ds)) %>% 
-  regex_row_matcher('([D]{4,})', ds) 
+  match_rows_raw('([D]{4,})', ds) 
 ```
-PS: The function name, `regex_row_matcher` is subject to change soon, and the signature made consistent with `match_rows`
+
 
 ## My interest is piqued good sir, may I inquire as to further reading?
 
