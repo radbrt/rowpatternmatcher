@@ -9,7 +9,7 @@ License: TBD
 Encoding: UTF-8
 LazyData: true
 Imports:
-    dplyr,
+    dplyr (>= 0.8.1),
     purrr,
     stringr,
     rlang

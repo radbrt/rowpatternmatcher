@@ -86,7 +86,8 @@ subset_from_ranges <- function(df, ranges) {
 #' @examples
 # ex: match_rows(df, my_definitions_col, "UP{4,} DOWN{4,}")
 match_rows <- function(df, definitions, rx, match_name=NULL) {
-
+  print("herewego")
+  print(paste("Rows: ", nrow(df)))
   match_name <- enquo(match_name)
   definitions <- enquo(definitions)
   coldefs <- sort(unique(pull(df, !!definitions)))
@@ -96,7 +97,7 @@ match_rows <- function(df, definitions, rx, match_name=NULL) {
   rx_name_ptn <- "[a-zA-Z][a-zA-Z0-9]*"
   rx_names <- str_extract_all(rx, rx_name_ptn)[[1]]
   rx_parsed <- rx
-  wildcards <- setdiff(rx_names, unique(coldefs))
+  wildcards <- setdiff(rx_names, coldefs)
   #print(wildcards)
   if (length(wildcards)>0) {
     for (w in wildcards) {
@@ -144,5 +145,9 @@ match_rows <- function(df, definitions, rx, match_name=NULL) {
   
 }
 
-
+match_group_rows <- function(df, definitions, rx, match_name=NULL) {
+  # definitions <- enquo(definitions)
+  # rx <- enquo(rx)
+  group_modify(df, match_rows, definitions, rx) 
+}
 
