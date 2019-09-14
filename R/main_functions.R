@@ -88,8 +88,7 @@ subset_from_ranges <- function(df, ranges) {
 match_rows <- function(df, definitions, rx, match_name=NULL) {
   print("herewego")
   print(paste("Rows: ", nrow(df)))
-  match_name <- enquo(match_name)
-  definitions <- enquo(definitions)
+  
   coldefs <- sort(unique(pull(df, !!definitions)))
   
   # Pattern
@@ -142,12 +141,14 @@ match_rows <- function(df, definitions, rx, match_name=NULL) {
   }
   
   return(ret_df)
-  
 }
 
 match_group_rows <- function(df, definitions, rx, match_name=NULL) {
-  # definitions <- enquo(definitions)
-  # rx <- enquo(rx)
-  group_modify(df, match_rows, definitions, rx) 
+  match_name <- enquo(match_name)
+  definitions <- enquo(definitions)
+  group_modify(df, ~ match_rows(df=.x, definitions, rx, match_name)) 
 }
+
+
+
 
