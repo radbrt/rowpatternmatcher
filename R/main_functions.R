@@ -45,13 +45,26 @@ match_number <- function(matchlist) {
 #' \dontrun{
 #' match_rows_raw(stocks, ds, "([D]{4,})")
 #' }
-match_rows_raw <- function(df, defs, ptn, match_name=NULL) {
-  defs <- enquo(defs)
+match_rows_raw <- function(df, definitions, rx, match_name=NULL) {
+  definitions <- enquo(definitions)
   match_name <- enquo(match_name)
-  defstring <- paste(pull(df, !!defs), collapse='')
+  group_modify(df, ~ match_partition_raw(df=.x, definitions, rx, match_name)) 
+}
+
+#' Regex row matcher per partition
+#'
+#' This function is meant to be called from match_rows_raw which handles partitions.
+#' The function accepts a dataframe, regex-pattern and column name for definitions, and return matching rows
+#' @param df Sorted and grouped dataframe to filter
+#' @param ptn Perl-regex pattern to look for, based on the definitions created
+#' @param defs Column containing the definition of rows
+#' @param match_name Optional column name for match-number, defaults to NULL.
+match_partition_raw <- function(df, definitions, rx, match_name=NULL) {
+
+  defstring <- paste(pull(df, !!definitions), collapse='')
   
   # returns row ranges e.g. c(1:4,13:17) based on string of definitions and regex-pattern 
-  ranges <- row_ranges(defstring, ptn)
+  ranges <- row_ranges(defstring, rx)
   
   ret_df <- subset_from_ranges(df, ranges)
   
@@ -84,11 +97,26 @@ subset_from_ranges <- function(df, ranges) {
 #' @keywords match_recognize
 #' @export
 #' @examples
-# ex: match_rows(df, my_definitions_col, "UP{4,} DOWN{4,}")
+#' \dontrun{
+#' match_rows(df, my_definitions_col, "UP{4,} DOWN{4,}", match_number=mnum)
+#' }
 match_rows <- function(df, definitions, rx, match_name=NULL) {
-  print("herewego")
-  print(paste("Rows: ", nrow(df)))
-  
+  definitions <- enquo(definitions)
+  match_name <- enquo(match_name)
+  group_modify(df, ~ match_partition(df=.x, definitions, rx, match_name)) 
+}
+
+
+#' Match rows per group (aka group_by)
+#'
+#' This function accepts a dataframe, regex-pattern and column name for definitions, and return matching rows
+#' The function is meant to be called from match_rows, there is no reason to call this on its own.
+#' @param df Sorted dataframe to filter (this will often be a partition from a group_by statement)
+#' @param definitions Column containing the definition of rows
+#' @param rx Simple regex-like statement to filter for - quoted.
+#' @param match_name Optional column name for match-number, defaults to NULL.
+match_partition <- function(df, definitions, rx, match_name=NULL) {
+
   coldefs <- sort(unique(pull(df, !!definitions)))
   
   # Pattern
@@ -142,13 +170,6 @@ match_rows <- function(df, definitions, rx, match_name=NULL) {
   
   return(ret_df)
 }
-
-match_group_rows <- function(df, definitions, rx, match_name=NULL) {
-  match_name <- enquo(match_name)
-  definitions <- enquo(definitions)
-  group_modify(df, ~ match_rows(df=.x, definitions, rx, match_name)) 
-}
-
 
 
 
