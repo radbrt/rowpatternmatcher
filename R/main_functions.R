@@ -42,15 +42,15 @@ match_number <- function(matchlist) {
 #' @export
 #' @examples
 #' \dontrun{
-#' regex_row_matcher(stocks, "([D]{4,})", ds)
+#' match_rows_raw(stocks, ds, "([D]{4,})")
 #' }
-regex_row_matcher <- function(df, ptn, defs) {
+match_rows_raw <- function(df, defs, ptn) {
   defs <- enquo(defs)
   defstring <- paste(pull(df, !!defs), collapse='')
   
   # returns row ranges e.g. c(1:4,13:17) based on string of definitions and regex-pattern 
   ranges <- row_ranges(defstring, ptn)
-
+  
   ret_df <- subset_from_ranges(df, ranges)
   ret_df$match_number <- match_number(ranges)
   return(ret_df)

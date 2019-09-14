@@ -22,14 +22,14 @@ Basically working with row pattern matching comes in two steps:
 1. First you create a set of **definitions** for your rows. This can be stuff like, the close price of a stock being higher than in the previous row, or name of employer is different from the next row. Or maybe as simple as stock price over 100. For the time being, you can create up to 10 of these definition (for weird technical reasons). Definitions are basically just a new column, containing "nicknames" for your definitions. In the example of stock prices, nicknames can be things like *UP* or *DOWN*. These names are completely up to you, but should be intuitive. 
 1. The definition column you created in the previous step is in turn the basis for the pattern you will look for. Defining a pattern can be done using pseudo-regex (or real regex, for advanced users), and will return only the rows that are part of the pattern you are looking for.
 
-## Show me the code already!
+## Enough talk already, show me the code!
 
 OK, calm down. A basic example, using the stocks data that come with the package, can look like this:
 
 ```
 stocks %>% 
   filter(ticker=='MSFT') %>% 
-  arrange(date) %>% #2
+  arrange(date) %>% 
   mutate( defns = 
            case_when(
              adj_close>lag(adj_close) ~ 'UP',
@@ -63,6 +63,6 @@ stocks %>%
 ```
 PS: The function name, `regex_row_matcher` is subject to change soon, and the signature made consistent with `match_rows`
 
-## My interest is piqued, good sir! Where may I inquire further on this titillating topic?
+## My interest is piqued good sir, may I inquire as to further reading?
 
 If you want to learn more about row pattern matching as implemented by Oracle, you can take a look at their documentation at https://docs.oracle.com/database/121/DWHSG/pattern.htm#DWHSG8956.
