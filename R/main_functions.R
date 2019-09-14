@@ -44,17 +44,23 @@ match_number <- function(matchlist) {
 #' \dontrun{
 #' match_rows_raw(stocks, ds, "([D]{4,})")
 #' }
-match_rows_raw <- function(df, defs, ptn) {
+match_rows_raw <- function(df, defs, ptn, match_name=NULL) {
   defs <- enquo(defs)
+  match_name <- enquo(match_name)
   defstring <- paste(pull(df, !!defs), collapse='')
   
   # returns row ranges e.g. c(1:4,13:17) based on string of definitions and regex-pattern 
   ranges <- row_ranges(defstring, ptn)
   
   ret_df <- subset_from_ranges(df, ranges)
-  ret_df$match_number <- match_number(ranges)
-  return(ret_df)
   
+  # Separate column with match-number (like MATCH_NUMBER in MEASURES)
+  if (!quo_is_null(match_name) ) {
+    ret_df <- ret_df %>% 
+      mutate(!!match_name := match_number(ranges))
+  }
+  
+  return(ret_df)
 }
 
 
@@ -77,10 +83,9 @@ subset_from_ranges <- function(df, ranges) {
 #' @export
 #' @examples
 # ex: match_rows(df, my_definitions_col, "UP{4,} DOWN{4,}")
-match_rows <- function(df, definitions, rx) {
-  #rx <- sort(unique(as.character(strsplit(rx, ' '))))
-  
-  # Column definitions
+match_rows <- function(df, definitions, rx, match_name=NULL) {
+
+  match_name <- enquo(match_name)
   definitions <- enquo(definitions)
   coldefs <- sort(unique(pull(df, !!definitions)))
   
@@ -108,13 +113,10 @@ match_rows <- function(df, definitions, rx) {
     rx_parsed <- str_replace_all(rx_parsed, a, as.character(match(a, all_nicks)))
   }
   
-
   
   # spaces are great when writing pseudoregex, need to remove before parsing as real regex
   rx_parsed <- str_replace_all(rx_parsed, ' ', '')
-  
-  #print(rx_parsed)
-  
+
   # replace definition column (not column itself, but copy) with single-character versions
   # coldefs <- c("THIS", "whatevz", "wtf") # column
   
@@ -131,7 +133,11 @@ match_rows <- function(df, definitions, rx) {
   ret_df <- subset_from_ranges(df, ranges)
   
   # Separate column with match-number (like MATCH_NUMBER in MEASURES)
-  ret_df$match_number <- match_number(ranges)
+  if (!quo_is_null(match_name) ) {
+    ret_df <- ret_df %>% 
+      mutate(!!match_name := match_number(ranges))
+  }
+  
   return(ret_df)
   
 }
