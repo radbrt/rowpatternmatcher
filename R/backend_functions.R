@@ -14,6 +14,14 @@ match_partition_raw <- function(df, definitions, rx, match_name=NULL, keep_all_r
   
   # returns row ranges e.g. c(1:4,13:17) based on string of definitions and regex-pattern 
   ranges <- row_ranges(defstring, rx)
+  
+  # If ranges shows no match, return early
+  if( length(ranges)==0 ) {
+    nulldf <- df
+    nulldf[, quo_name(match_name)] = NA
+    return(nulldf[NULL,])
+  }
+  
   ret_df <- df
   
   #Separate column with match-number (like MATCH_NUMBER in MEASURES)
@@ -83,6 +91,13 @@ match_partition <- function(df, definitions, rx, match_name=NULL, keep_all_rows=
 
   defstring <- paste(defs_encoded, collapse='')
   ranges <- row_ranges(defstring, rx_parsed)
+  
+  # If ranges shows no match, return early
+  if( length(ranges)==0 ) {
+    nulldf <- df
+    nulldf[, quo_name(match_name)] = NA
+    return(nulldf[NULL,])
+  }
 
   ret_df <- df
   
