@@ -6,20 +6,25 @@
 #' @param ptn Perl-regex pattern to look for, based on the definitions created
 #' @param defs Column containing the definition of rows
 #' @param match_name Optional column name for match-number, defaults to NULL.
-match_partition_raw <- function(df, definitions, rx, match_name=NULL) {
+#' @param keep_all_rows Boolean allows you to return all rows, uncluding nonmatching rows. 
+#' Meaninless if not match_name is set. Default FALSE.
+match_partition_raw <- function(df, definitions, rx, match_name=NULL, keep_all_rows=FALSE) {
   
   defstring <- paste(pull(df, !!definitions), collapse='')
   
   # returns row ranges e.g. c(1:4,13:17) based on string of definitions and regex-pattern 
   ranges <- row_ranges(defstring, rx)
+  ret_df <- df
   
-  ret_df <- subset_from_ranges(df, ranges)
-  
-  # Separate column with match-number (like MATCH_NUMBER in MEASURES)
+  #Separate column with match-number (like MATCH_NUMBER in MEASURES)
   if (!quo_is_null(match_name) ) {
-    ret_df <- ret_df %>% 
-      mutate(!!match_name := match_number(ranges))
+    ret_df[unique(unlist(ranges)), quo_name(match_name)] = match_number(ranges)
   }
+
+  if(!keep_all_rows) {
+    ret_df <- subset_from_ranges(ret_df, ranges)
+  }
+
   
   return(ret_df)
 }
@@ -34,7 +39,9 @@ match_partition_raw <- function(df, definitions, rx, match_name=NULL) {
 #' @param definitions Column containing the definition of rows
 #' @param rx Simple regex-like statement to filter for - quoted.
 #' @param match_name Optional column name for match-number, defaults to NULL.
-match_partition <- function(df, definitions, rx, match_name=NULL) {
+#' @param keep_all_rows Boolean allows you to return all rows, uncluding nonmatching rows. 
+#' Meaninless if not match_name is set. Default FALSE.
+match_partition <- function(df, definitions, rx, match_name=NULL, keep_all_rows=FALSE) {
   
   coldefs <- sort(unique(pull(df, !!definitions)))
   
@@ -68,7 +75,6 @@ match_partition <- function(df, definitions, rx, match_name=NULL) {
   
   # replace definition column (not column itself, but copy) with single-character versions
   # coldefs <- c("THIS", "whatevz", "wtf") # column
-  
   defs_encoded <- pull(df, !!definitions)
   for (i in 1:length(defs_encoded)) {
     defs_encoded[i] <- as.character( match(defs_encoded[i], all_nicks) )
@@ -76,16 +82,17 @@ match_partition <- function(df, definitions, rx, match_name=NULL) {
   
 
   defstring <- paste(defs_encoded, collapse='')
-
   ranges <- row_ranges(defstring, rx_parsed)
 
-  # Subset data from ranges
-  ret_df <- subset_from_ranges(df, ranges)
-
-  # Separate column with match-number (like MATCH_NUMBER in MEASURES)
+  ret_df <- df
+  
+  #Separate column with match-number (like MATCH_NUMBER in MEASURES)
   if (!quo_is_null(match_name) ) {
-    ret_df <- ret_df %>%
-      mutate(!!match_name := match_number(ranges))
+    ret_df[unique(unlist(ranges)), quo_name(match_name)] = match_number(ranges)
+  }
+  
+  if(!keep_all_rows) {
+    ret_df <- subset_from_ranges(ret_df, ranges)
   }
 
   return(ret_df)

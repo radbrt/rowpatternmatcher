@@ -1,3 +1,8 @@
+library(dplyr)
+library(stringr)
+library(purrr)
+library(rlang)
+
 test_that("match_rows returns new column name", {
   # raw regex 'regex_row_matcher'
   expect_equal(

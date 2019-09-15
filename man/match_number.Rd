@@ -9,7 +9,7 @@ there are several matches in one "string".}
 match_number(matchlist)
 }
 \arguments{
-\item{matchlist}{Output of the mapped `ranges_from_starts_lengths` function}
+\item{matchlist}{Match ranges}
 }
 \description{
 Match number

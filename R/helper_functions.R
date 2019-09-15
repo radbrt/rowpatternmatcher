@@ -22,8 +22,9 @@ row_ranges <- function(defstring, ptn) {
 #' Match number
 #' This is an internal function that returns an array of match-numbers, in the case that 
 #' there are several matches in one "string". 
-#' @param matchlist Output of the mapped `ranges_from_starts_lengths` function
+#' @param matchlist Match ranges
 match_number <- function(matchlist) {
+  # This is textbook inefficient
   cr <- c()
   for (i in 1:length(matchlist)) {
     cr <- c(cr, rep(i, length(matchlist[[i]])))
