@@ -17,7 +17,7 @@
 match_rows_raw <- function(df, definitions, rx, match_name=NULL, keep_all_rows=FALSE) {
   definitions <- rlang::enquo(definitions)
   match_name <- rlang::enquo(match_name)
-  dplyr::group_modify(df, ~ match_partition_raw(df=.x, definitions, rx, match_name, keep_all_rows)) 
+  group_modify(df, ~ match_partition_raw(df=.x, definitions, rx, match_name, keep_all_rows)) 
 }
 
 
@@ -40,7 +40,7 @@ match_rows_raw <- function(df, definitions, rx, match_name=NULL, keep_all_rows=F
 match_rows <- function(df, definitions, rx, match_name=NULL, keep_all_rows=FALSE) {
   definitions <- rlang::enquo(definitions)
   match_name <- rlang::enquo(match_name)
-  dplyr::group_modify(df, ~ match_partition(df=.x, definitions, rx, match_name, keep_all_rows)) 
+  group_modify(df, ~ match_partition(df=.x, definitions, rx, match_name, keep_all_rows)) 
 }
 
 

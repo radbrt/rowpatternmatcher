@@ -15,6 +15,7 @@ knitr::opts_chunk$set(
 ```
 
 ```{r setup}
+
 library(rowpatternmatcher)
 library(dplyr)
 library(stringr)
@@ -60,6 +61,9 @@ head(stocks_change)
 ```
 
 This creates a new dataframe with a new column, `change` that is eiter "UP" or "DOWN". This is our definition, and as promised we can create this using only tidyverse functions. If you are more comfortable with base R or other libraries feel free to use that, but this library is created to work with the tidyverse programming paradigm.
+```{r}
+#match_rows_raw(msft, change2, "([D]{4,})", mnum)
+```
 
 Now that we have our definition column, we can turn to writing the pattern that we are looking for. Since we are looking for long series of rows where the `change` column equals "UP", it makes sense to look for any occurence of two-or-more UPs in a row. Our pattern, in pseudo-regex, is therefore `UP{2,}`.
 

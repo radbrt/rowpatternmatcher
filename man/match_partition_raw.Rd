@@ -16,8 +16,7 @@ match_partition_raw(df, definitions, rx, match_name = NULL,
 
 \item{match_name}{Optional column name for match-number, defaults to NULL.}
 
-\item{keep_all_rows}{Boolean allows you to return all rows, uncluding nonmatching rows. 
-Meaninless if not match_name is set. Default FALSE.}
+\item{keep_all_rows}{Boolean allows you to return all rows, uncluding nonmatching rows.}
 }
 \description{
 This function is meant to be called from match_rows_raw which handles partitions.
