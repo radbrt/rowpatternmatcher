@@ -12,10 +12,10 @@ ranges_from_starts_lengths <- function(start, ends) {
 #' @param defstring The collapsed column with definitions - one character per row
 #' @param ptn The regex-pattern to find
 row_ranges <- function(defstring, ptn) {
-  result <- str_locate_all(defstring, ptn)[[1]]
+  result <- stringr::str_locate_all(defstring, ptn)[[1]]
   cstarts <- result[, 'start']
   cends <- result[, 'end']
-  ranges <- map2(cstarts, cends, ~ .x:.y)
+  ranges <- purrr::map2(cstarts, cends, ~ .x:.y)
   ranges
 }
 

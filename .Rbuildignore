@@ -1,4 +1,7 @@
+^\.DS_Store$
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^\.travis\.yml$
-^_*.R
+^_testing.R$
+^_jottings.R$
+^raw_data$

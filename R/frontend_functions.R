@@ -8,15 +8,16 @@
 #' @param keep_all_rows Boolean allows you to return all rows, uncluding nonmatching rows. 
 #' Meaninless if match_name is not set. Default FALSE.
 #' @keywords match_recognize
+#' @importFrom dplyr stringr purrr rlang
 #' @export
 #' @examples
 #' \dontrun{
 #' match_rows_raw(msft, change2, "([D]{4,})", mnum)
 #' }
 match_rows_raw <- function(df, definitions, rx, match_name=NULL, keep_all_rows=FALSE) {
-  definitions <- enquo(definitions)
-  match_name <- enquo(match_name)
-  group_modify(df, ~ match_partition_raw(df=.x, definitions, rx, match_name, keep_all_rows)) 
+  definitions <- rlang::enquo(definitions)
+  match_name <- rlang::enquo(match_name)
+  dplyr::group_modify(df, ~ match_partition_raw(df=.x, definitions, rx, match_name, keep_all_rows)) 
 }
 
 
@@ -30,15 +31,16 @@ match_rows_raw <- function(df, definitions, rx, match_name=NULL, keep_all_rows=F
 #' @param keep_all_rows Boolean allows you to return all rows, uncluding nonmatching rows. 
 #' Meaninless if match_name is not set. Default FALSE.
 #' @keywords match_recognize
+#' @importFrom dplyr stringr purrr rlang
 #' @export
 #' @examples
 #' \dontrun{
 #' match_rows(msft, change, "UP{4,} DOWN{3,}", match_name=mnum)
 #' }
 match_rows <- function(df, definitions, rx, match_name=NULL, keep_all_rows=FALSE) {
-  definitions <- enquo(definitions)
-  match_name <- enquo(match_name)
-  group_modify(df, ~ match_partition(df=.x, definitions, rx, match_name, keep_all_rows)) 
+  definitions <- rlang::enquo(definitions)
+  match_name <- rlang::enquo(match_name)
+  dplyr::group_modify(df, ~ match_partition(df=.x, definitions, rx, match_name, keep_all_rows)) 
 }
 
 
