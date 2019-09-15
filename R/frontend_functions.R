@@ -42,5 +42,26 @@ match_rows <- function(df, definitions, rx, match_name=NULL, keep_all_rows=FALSE
 }
 
 
+#' Conditional aggregation
+#'
+#' Aggregate a column where some condition is true. 
+#' This is not even a convenience function as it can be done simpler in native tidyverse (se examples).
+#' The function exists in order to highlight a programming pattern.
+#' @param fun The aggregation function to run
+#' @param var The variable to run the function on
+#' @param cond The condition to filter on
+#' @keywords aggregation
+#' @export
+#' @examples
+#' \dontrun{
+#' mutate(msft, fincol = aggregate_where(mean, adj_close, change=="UP") )
+#' 
+#' # Equivalent to
+#' mutate(msft, fincol = mean(adj_close[change=="UP"] ))
+#' }
+#' 
+aggregate_where <- function(fun, var, cond) {
+  fun(var[cond])
+}
 
 
