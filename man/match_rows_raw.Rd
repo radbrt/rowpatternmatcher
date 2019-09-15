@@ -10,10 +10,10 @@ match_rows_raw(df, definitions, rx, match_name = NULL,
 \arguments{
 \item{df}{Sorted and grouped dataframe to filter}
 
-\item{match_name}{Optional column name for match-number, defaults to NULL.}
+\item{match_name}{Optional column name for match-number. Defaults to NULL, meaning no column will be created.}
 
 \item{keep_all_rows}{Boolean allows you to return all rows, uncluding nonmatching rows. 
-Meaninless if not match_name is set. Default FALSE.}
+Meaninless if match_name is not set. Default FALSE.}
 
 \item{ptn}{Perl-regex pattern to look for, based on the definitions created}
 

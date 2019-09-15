@@ -14,10 +14,10 @@ match_rows(df, definitions, rx, match_name = NULL,
 
 \item{rx}{Simple regex-like statement to filter for - quoted.}
 
-\item{match_name}{Optional column name for match-number, defaults to NULL.}
+\item{match_name}{Optional column name for match-number. Defaults to NULL, meaning no column will be created.}
 
 \item{keep_all_rows}{Boolean allows you to return all rows, uncluding nonmatching rows. 
-Meaninless if not match_name is set. Default FALSE.}
+Meaninless if match_name is not set. Default FALSE.}
 }
 \description{
 This function accepts a dataframe, regex-pattern and column name for definitions, and return matching rows
