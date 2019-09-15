@@ -1,4 +1,6 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^\.travis\.yml$
-^_*.R
+^_jottings.R$
+^_testing.R$
+^raw_data$
