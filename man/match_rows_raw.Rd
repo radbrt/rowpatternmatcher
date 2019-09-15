@@ -19,6 +19,8 @@ match_rows_raw(df, definitions, rx, match_name = NULL)
 This function accepts a dataframe, regex-pattern and column name for definitions, and return matching rows
 }
 \examples{
+\dontrun{
 match_rows_raw(msft, change2, "([D]{4,})", mnum)
+}
 }
 \keyword{match_recognize}

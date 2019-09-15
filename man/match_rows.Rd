@@ -19,6 +19,8 @@ match_rows(df, definitions, rx, match_name = NULL)
 This function accepts a dataframe, regex-pattern and column name for definitions, and return matching rows
 }
 \examples{
+\dontrun{
 match_rows(msft, change, "UP{4,} DOWN{3,}", match_name=mnum)
+}
 }
 \keyword{match_recognize}
