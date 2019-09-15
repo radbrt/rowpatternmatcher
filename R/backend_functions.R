@@ -3,8 +3,8 @@
 #' This function is meant to be called from match_rows_raw which handles partitions.
 #' The function accepts a dataframe, regex-pattern and column name for definitions, and return matching rows
 #' @param df Sorted and grouped dataframe to filter
-#' @param ptn Perl-regex pattern to look for, based on the definitions created
-#' @param defs Column containing the definition of rows
+#' @param rx Perl-regex pattern to look for, based on the definitions created
+#' @param definitions Column containing the definition of rows
 #' @param match_name Optional column name for match-number, defaults to NULL.
 #' @param keep_all_rows Boolean allows you to return all rows, uncluding nonmatching rows. 
 #' Meaninless if not match_name is set. Default FALSE.

@@ -14,7 +14,7 @@ aggregate_where(fun, var, cond)
 \item{cond}{The condition to filter on}
 }
 \description{
-Aggregate a column where some condition is true. 
+Aggregate a column where some condition is true - meant to be used inside tidy functions. 
 This is not even a convenience function as it can be done simpler in native tidyverse (se examples).
 The function exists in order to highlight a programming pattern.
 }

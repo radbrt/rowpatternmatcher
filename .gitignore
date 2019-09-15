@@ -6,3 +6,5 @@ raw_data/*
 .RData
 _*
 .Ruserdata
+inst/doc
+*.Rproj

@@ -1,0 +1,102 @@
+---
+title: "introduction"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{introduction}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(rowpatternmatcher)
+library(dplyr)
+library(stringr)
+library(rlang)
+library(purrr)
+```
+
+
+## What row pattern matching is for
+You can think of row pattern matching as a an advanced way of filtering rows. Instead of filtering on some static condition like `price>100` you can filter rows that are part of some pattern - i.e. pattern between rows. Say you have som stock data (which conveniently is included with the package), you can select rows that are part of a 5-or-more day price surge. Or, rows that are part of a long zig-zag pattern. Or days that are part of a microcrack (this is when the stock price plummets and recovers within a short time).
+
+For social scientists dealing with panel data, which follows interview subjects year after year, this lets you easily find things like repeated job changes, periods of strong income increases, or specific educational paths.
+
+## About this package
+Although row pattern matching is an existing feature in some databases and a part of ANSI:SQL 2016, `rowpatternmatcher` is not trying to copy the ANSI row pattern matching syntax. Rather it is trying to copy the functionality and adapt it to the R and tidyverse programming patterns. Also, the implementation is fairly opportunistic. It leaves out functionality that is covered by tidyverse libraries, it has some new features that came "for free" in the R environment and the specific implementation, and it postpones implementing features that have a high cost/benefit ratio. All in all, it is likely that the library will never cover all features of row pattern matching in SQL.
+
+## The theory
+
+Basically, working with row pattern matching comes in two steps:
+1. First you create a set of **definitions** for your rows. To continue the example above, this can be something like the close price of a stock being higher than in the previous row, or the name of someones employer being different from the next row. Or maybe as simple as stock price over 100. For the time being, you can create up to 10 of these definition (for weird technical reasons). Definitions are basically just a new column, containing "nicknames" for your definitions. In the example of stock prices, nicknames can be things like *UP* or *DOWN*. These names are completely up to you, but should be intuitive. 
+1. The definition column you created in the previous step is in turn the basis for the **pattern** you will define and look for. Defining a pattern can be done using pseudo-regex (or real regex, for advanced users), and will return only the rows that are part of the pattern you are looking for.
+
+## A simple example
+
+Using the stock data that comes with the package, one interesting thing we can find out is which stock has had the longest prolonged price increase. For simplicity we decide that a price increase is when closing price being higher than the day before.
+
+First, we need to create some definitions, in our case two definitions are enough: "UP" for when the price increases, and "DOWN" for when it doesn't. We can do this with standard tidyverse functions. Two things to keep in mind though:
+1. Since the dataset contains different stocks, we need to use `group_by` so we don't compare one stock to the other.
+1. Since we compare sequences of rows, the ordering is important. We will use `arrange` to make sure the rows are ordered.
+
+```{r definitions}
+stocks_change <- stocks %>% 
+  group_by(ticker) %>% 
+  arrange(date) %>% 
+  mutate( change = 
+           case_when(
+             adj_close>lag(adj_close) ~ 'UP',
+             TRUE ~ 'DOWN'
+           )
+  )
+
+head(stocks_change)
+```
+
+This creates a new dataframe with a new column, `change` that is eiter "UP" or "DOWN". This is our definition, and as promised we can create this using only tidyverse functions. If you are more comfortable with base R or other libraries feel free to use that, but this library is created to work with the tidyverse programming paradigm.
+
+Now that we have our definition column, we can turn to writing the pattern that we are looking for. Since we are looking for long series of rows where the `change` column equals "UP", it makes sense to look for any occurence of two-or-more UPs in a row. Our pattern, in pseudo-regex, is therefore `UP{2,}`.
+
+```{r match_rows_simple}
+increases <- stocks_change %>% 
+  match_rows(change, "UP{2,}", match_name=matchnumber)
+
+head(increases)
+```
+
+Here, we have provided four arguments to the `match_rows` function: The data frame is piped in as the first argument, the second argument is the column where our definitions are, the third argument is the pattern we decided to look for (in quotes), and finally we have provided an optional argument `match_name` which when specified returns a new variable containing the match number of the row. Since there are probably many cases of UPs in a row for each stock, and we want to find the longes streak, it helps us immensely to have this match number. More on this later.
+
+Now that we have selected the increases, lets's find the longest increase for each stock. We can also include the start- and end-price. We do this with standard dplyr-functions, and use the match number variable together with ticker as grouping variables.
+
+```{r aggregate_simple_example}
+increases %>% 
+  group_by(ticker, matchnumber) %>% 
+  summarize(duration=n(), price_increase=last(adj_close)-first(adj_close)) %>% 
+  summarize(max_duration=max(duration), max_increase=max(price_increase[duration=max(duration)]))
+```
+
+This pattern looks for occurences of the Microsoft stock increasing at least four consecutive days, and then decreasing at least three consecutive days. Only the rows that are part of this "peak" will be included in the output. The resulting data frame will have 14 rows that constitute two different matches. If you want to see what match number each line is a part of, you can give a value to the argument `match_name`, an optional last argument where you can specify the name you want to give this new column.
+
+There is also an "advanced mode", which does not do any pre-parsing of the regex and therefore allows for more advanced regex patterns to be specified. The downside of this though, is that the definitions created can only consist of a single character. This really shows that what happens under the hood is pure regex, and one of the simplifying tricks is to have a 1-to-1 mapping between the text string containing the definitions and the rows. Sorry for the inconvenience, this is duct-tape not magic.
+
+```
+stocks %>% 
+  filter(ticker=='MSFT') %>% 
+  arrange(date) %>% 
+  mutate(ds = ifelse(adj_close>lag(adj_close), 'U', 'D')) %>% 
+  mutate(ds = ifelse(is.na(ds), '0', ds)) %>% 
+  match_rows_raw('([D]{4,})', ds) 
+```
+
+
+## My interest is piqued good sir, may I inquire as to further reading?
+
+The concept was first developed (as far as I know) by Oracle, and was included in the ANSI SQL:2016 standard. But so far very few databases support it - despite it being one of the most creative new features in a while.
+
+If you want to learn more about row pattern matching as implemented by Oracle, you can take a look at their documentation at https://docs.oracle.com/database/121/DWHSG/pattern.htm#DWHSG8956.

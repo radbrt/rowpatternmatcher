@@ -2,8 +2,8 @@
 #'
 #' This function accepts a dataframe, regex-pattern and column name for definitions, and return matching rows
 #' @param df Sorted and grouped dataframe to filter
-#' @param ptn Perl-regex pattern to look for, based on the definitions created
-#' @param defs Column containing the definition of rows
+#' @param definitions Column containing the definition of rows
+#' @param rx Perl-regex pattern to look for, based on the definitions created
 #' @param match_name Optional column name for match-number. Defaults to NULL, meaning no column will be created.
 #' @param keep_all_rows Boolean allows you to return all rows, uncluding nonmatching rows. 
 #' Meaninless if match_name is not set. Default FALSE.
@@ -44,7 +44,7 @@ match_rows <- function(df, definitions, rx, match_name=NULL, keep_all_rows=FALSE
 
 #' Conditional aggregation
 #'
-#' Aggregate a column where some condition is true. 
+#' Aggregate a column where some condition is true - meant to be used inside tidy functions. 
 #' This is not even a convenience function as it can be done simpler in native tidyverse (se examples).
 #' The function exists in order to highlight a programming pattern.
 #' @param fun The aggregation function to run

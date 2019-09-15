@@ -34,7 +34,7 @@ stocks %>%
            case_when(
              adj_close>lag(adj_close) ~ 'UP',
              TRUE ~ 'DOWN'
-           ) #3
+           )
   ) %>% 
   match_rows(defns, "UP{4,} DOWN{3,}")
 ```

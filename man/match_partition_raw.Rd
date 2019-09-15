@@ -10,14 +10,14 @@ match_partition_raw(df, definitions, rx, match_name = NULL,
 \arguments{
 \item{df}{Sorted and grouped dataframe to filter}
 
+\item{definitions}{Column containing the definition of rows}
+
+\item{rx}{Perl-regex pattern to look for, based on the definitions created}
+
 \item{match_name}{Optional column name for match-number, defaults to NULL.}
 
 \item{keep_all_rows}{Boolean allows you to return all rows, uncluding nonmatching rows. 
 Meaninless if not match_name is set. Default FALSE.}
-
-\item{ptn}{Perl-regex pattern to look for, based on the definitions created}
-
-\item{defs}{Column containing the definition of rows}
 }
 \description{
 This function is meant to be called from match_rows_raw which handles partitions.
