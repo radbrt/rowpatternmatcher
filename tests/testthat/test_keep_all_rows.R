@@ -1,3 +1,8 @@
+library(dplyr)
+library(stringr)
+library(purrr)
+library(rlang)
+
 test_that("match_rows works with keep_all_rows", {
   # raw regex 'regex_row_matcher'
   expect_equal(
