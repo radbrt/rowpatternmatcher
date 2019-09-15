@@ -4,12 +4,16 @@
 \alias{match_rows_raw}
 \title{Regex row matcher}
 \usage{
-match_rows_raw(df, definitions, rx, match_name = NULL)
+match_rows_raw(df, definitions, rx, match_name = NULL,
+  keep_all_rows = FALSE)
 }
 \arguments{
 \item{df}{Sorted and grouped dataframe to filter}
 
 \item{match_name}{Optional column name for match-number, defaults to NULL.}
+
+\item{keep_all_rows}{Boolean allows you to return all rows, uncluding nonmatching rows. 
+Meaninless if not match_name is set. Default FALSE.}
 
 \item{ptn}{Perl-regex pattern to look for, based on the definitions created}
 
