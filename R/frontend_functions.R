@@ -8,9 +8,7 @@
 #' @keywords match_recognize
 #' @export
 #' @examples
-#' \dontrun{
-#' match_rows_raw(stocks, ds, "([D]{4,})")
-#' }
+#' match_rows_raw(msft, change2, "([D]{4,})", mnum)
 match_rows_raw <- function(df, definitions, rx, match_name=NULL) {
   definitions <- enquo(definitions)
   match_name <- enquo(match_name)
@@ -28,9 +26,7 @@ match_rows_raw <- function(df, definitions, rx, match_name=NULL) {
 #' @keywords match_recognize
 #' @export
 #' @examples
-#' \dontrun{
-#' match_rows(df, my_definitions_col, "UP{4,} DOWN{4,}", match_number=mnum)
-#' }
+#' match_rows(msft, change, "UP{4,} DOWN{3,}", match_name=mnum)
 match_rows <- function(df, definitions, rx, match_name=NULL) {
   definitions <- enquo(definitions)
   match_name <- enquo(match_name)

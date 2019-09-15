@@ -3,15 +3,27 @@
 \docType{data}
 \name{stocks}
 \alias{stocks}
-\title{This is data to be included in my package}
+\title{Stock data for three companies}
 \description{
-This is data to be included in my package
+A dataset containing stock prices for Amazon (AMZN), Microsoft (MSFT) and Apple (AAPL)
+for the period August 30st 2018 to August 30th 2019. The variables are:
+}
+\details{
+\itemize{
+  \item date. Trading date (2018-08-30 - 2019-08-30)
+  \item open. Opening price.
+  \item high. High price during trading day.
+  \item low. Low price during trading day.
+  \item close. Closing price.
+  \item adj_close. Adjusted closing price.
+  \item volume. Trade volume.
+  \item ticker. Name of stock.
+}
 }
 \references{
-\url{yahoo.com}
+\url{https://finance.yahoo.com/quotes/AMZN,AAPL,MSFT}
 }
 \author{
 Radbrt \email{dev_null@cerx.co}
 }
-\keyword{data}
-\keyword{stock}
+\keyword{datasets}
