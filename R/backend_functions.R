@@ -18,15 +18,15 @@ match_partition_raw <- function(df, definitions, rx, match_name=NULL, keep_all_r
   # If ranges shows no match, return early
   if( length(ranges)==0 ) {
     nulldf <- df
-    nulldf[, dplyr::quo_name(match_name)] = NA
+    nulldf[, rlang::quo_name(match_name)] = NA
     return(nulldf[NULL,])
   }
   
   ret_df <- df
   
   #Separate column with match-number (like MATCH_NUMBER in MEASURES)
-  if (!quo_is_null(match_name) ) {
-    ret_df[unique(unlist(ranges)), quo_name(match_name)] = match_number(ranges)
+  if (!rlang::quo_is_null(match_name) ) {
+    ret_df[unique(unlist(ranges)), rlang::quo_name(match_name)] = match_number(ranges)
   }
 
   if(!keep_all_rows) {
@@ -51,7 +51,7 @@ match_partition_raw <- function(df, definitions, rx, match_name=NULL, keep_all_r
 #' Meaninless if not match_name is set. Default FALSE.
 match_partition <- function(df, definitions, rx, match_name=NULL, keep_all_rows=FALSE) {
   
-  coldefs <- sort(unique(pull(df, !!definitions)))
+  coldefs <- sort(unique(dplyr::pull(df, !!definitions)))
   
   # Pattern
   # Extract nicknames/definitions from pattern
@@ -83,7 +83,7 @@ match_partition <- function(df, definitions, rx, match_name=NULL, keep_all_rows=
   
   # replace definition column (not column itself, but copy) with single-character versions
   # coldefs <- c("THIS", "whatevz", "wtf") # column
-  defs_encoded <- pull(df, !!definitions)
+  defs_encoded <- dplyr::pull(df, !!definitions)
   for (i in 1:length(defs_encoded)) {
     defs_encoded[i] <- as.character( match(defs_encoded[i], all_nicks) )
   }
@@ -95,15 +95,15 @@ match_partition <- function(df, definitions, rx, match_name=NULL, keep_all_rows=
   # If ranges shows no match, return early
   if( length(ranges)==0 ) {
     nulldf <- df
-    nulldf[, quo_name(match_name)] = NA
+    nulldf[, rlang::quo_name(match_name)] = NA
     return(nulldf[NULL,])
   }
 
   ret_df <- df
   
   #Separate column with match-number (like MATCH_NUMBER in MEASURES)
-  if (!quo_is_null(match_name) ) {
-    ret_df[unique(unlist(ranges)), quo_name(match_name)] = match_number(ranges)
+  if (!rlang::quo_is_null(match_name) ) {
+    ret_df[unique(unlist(ranges)), rlang::quo_name(match_name)] = match_number(ranges)
   }
   
   if(!keep_all_rows) {
