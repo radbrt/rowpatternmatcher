@@ -14,10 +14,9 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r setup}
-#library(devtools)
-#devtools::load_all(".")
-library(rowpatternmatcher)
+```{r setup, include = FALSE}
+library(devtools)
+devtools::load_all(".")
 library(dplyr)
 library(stringr)
 library(rlang)
@@ -83,21 +82,23 @@ increases %>%
   summarize(max_duration=max(duration), max_increase=max(price_increase[duration=max(duration)]))
 ```
 
-This pattern looks for occurences of the Microsoft stock increasing at least four consecutive days, and then decreasing at least three consecutive days. Only the rows that are part of this "peak" will be included in the output. The resulting data frame will have 14 rows that constitute two different matches. If you want to see what match number each line is a part of, you can give a value to the argument `match_name`, an optional last argument where you can specify the name you want to give this new column.
+Interestingly, both Microsoft and Apple have had longer periods of increases than amazon, but amazon has, had a much higher increase during its longest streak.
+
+## Using pure regex
 
 There is also an "advanced mode", which does not do any pre-parsing of the regex and therefore allows for more advanced regex patterns to be specified. The downside of this though, is that the definitions created can only consist of a single character. This really shows that what happens under the hood is pure regex, and one of the simplifying tricks is to have a 1-to-1 mapping between the text string containing the definitions and the rows. Sorry for the inconvenience, this is duct-tape not magic.
 
-```
-stocks %>% 
-  filter(ticker=='MSFT') %>% 
-  arrange(date) %>% 
-  mutate(ds = ifelse(adj_close>lag(adj_close), 'U', 'D')) %>% 
-  mutate(ds = ifelse(is.na(ds), '0', ds)) %>% 
-  match_rows_raw('([D]{4,})', ds) 
+```{r adv_mode}
+msft %>% 
+  match_rows_raw(change2, '[U]{4,}[D]{3,}', mnum) %>% 
+  select(date, adj_close, change2, mnum)
 ```
 
+The example uses the `msft` dataset, which is already pre-sorted and has a `change2` column containg a "D" for down and "U" for UP.
 
-## My interest is piqued good sir, may I inquire as to further reading?
+This pattern looks for occurences of the Microsoft stock increasing at least four consecutive days, and then decreasing at least three consecutive days.
+
+## Further reading
 
 The concept was first developed (as far as I know) by Oracle, and was included in the ANSI SQL:2016 standard. But so far very few databases support it - despite it being one of the most creative new features in a while.
 
