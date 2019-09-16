@@ -1,3 +1,4 @@
+vignettes/*.log
 .DS_Store
 _*.R
 initial_testing.R
