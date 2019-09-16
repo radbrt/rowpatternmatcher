@@ -12,7 +12,8 @@ Imports:
     dplyr (>= 0.8.1),
     purrr,
     stringr,
-    rlang
+    rlang,
+    devtools
 Suggests:
     testthat,
     knitr,
