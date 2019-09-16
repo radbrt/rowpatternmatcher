@@ -10,7 +10,7 @@
 #' Meaninless if not match_name is set. Default FALSE.
 match_partition_raw <- function(df, definitions, rx, match_name=NULL, keep_all_rows=FALSE) {
   
-  defstring <- paste(pull(df, !!definitions), collapse='')
+  defstring <- paste(dplyr::pull(df, !!definitions), collapse='')
   
   # returns row ranges e.g. c(1:4,13:17) based on string of definitions and regex-pattern 
   ranges <- row_ranges(defstring, rx)
@@ -18,7 +18,7 @@ match_partition_raw <- function(df, definitions, rx, match_name=NULL, keep_all_r
   # If ranges shows no match, return early
   if( length(ranges)==0 ) {
     nulldf <- df
-    nulldf[, quo_name(match_name)] = NA
+    nulldf[, dplyr::quo_name(match_name)] = NA
     return(nulldf[NULL,])
   }
   
@@ -56,13 +56,13 @@ match_partition <- function(df, definitions, rx, match_name=NULL, keep_all_rows=
   # Pattern
   # Extract nicknames/definitions from pattern
   rx_name_ptn <- "[a-zA-Z][a-zA-Z0-9]*"
-  rx_names <- str_extract_all(rx, rx_name_ptn)[[1]]
+  rx_names <- stringr::str_extract_all(rx, rx_name_ptn)[[1]]
   rx_parsed <- rx
   wildcards <- setdiff(rx_names, coldefs)
   #print(wildcards)
   if (length(wildcards)>0) {
     for (w in wildcards) {
-      rx_parsed <- str_replace_all(rx_parsed, w, '\\.')
+      rx_parsed <- stringr::str_replace_all(rx_parsed, w, '\\.')
     }
   }
   
@@ -74,12 +74,12 @@ match_partition <- function(df, definitions, rx, match_name=NULL, keep_all_rows=
   
   # replace regex with appreviated version
   for (a in all_nicks) {
-    rx_parsed <- str_replace_all(rx_parsed, a, as.character(match(a, all_nicks)))
+    rx_parsed <- stringr::str_replace_all(rx_parsed, a, as.character(match(a, all_nicks)))
   }
   
   
   # spaces are great when writing pseudoregex, need to remove before parsing as real regex
-  rx_parsed <- str_replace_all(rx_parsed, ' ', '')
+  rx_parsed <- stringr::str_replace_all(rx_parsed, ' ', '')
   
   # replace definition column (not column itself, but copy) with single-character versions
   # coldefs <- c("THIS", "whatevz", "wtf") # column
