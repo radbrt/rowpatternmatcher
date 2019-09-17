@@ -20,7 +20,7 @@ The package is not trying to copy the ANSI row pattern matching syntax, rather i
 
 Basically working with row pattern matching comes in two steps:
 1. First you create a set of **definitions** for your rows. This can be stuff like, the close price of a stock being higher than in the previous row, or name of employer is different from the next row. Or maybe as simple as stock price over 100. For the time being, you can create up to 10 of these definition (for weird technical reasons). Definitions are basically just a new column, containing "nicknames" for your definitions. In the example of stock prices, nicknames can be things like *UP* or *DOWN*. These names are completely up to you, but should be intuitive. 
-1. The definition column you created in the previous step is in turn the basis for the pattern you will look for. Defining a pattern can be done using pseudo-regex (or real regex, for advanced users), and will return only the rows that are part of the pattern you are looking for.
+1. The definition column you created in the previous step is in turn the basis for the **pattern** you will look for. Defining a pattern can be done using pseudo-regex (or real regex, for advanced users), and will return only the rows that are part of the pattern you are looking for.
 
 ## Enough talk already, show me the code!
 
