@@ -15,7 +15,7 @@ test_that("match_rows works with keep_all_rows", {
                   TRUE ~ 'DOWN'
                 )
       ) %>% 
-      match_rows(defns, "whatevz UP{4,}", mnum, keep_all_rows=TRUE) %>% 
+      match_rows(defns, "whatevz UP{4,}", mnum, keep_all_rows=TRUE, wildcards = c("whatevz")) %>% 
       nrow(), nrow(stocks))
   
   expect_equal(
@@ -28,7 +28,7 @@ test_that("match_rows works with keep_all_rows", {
                   TRUE ~ 'DOWN'
                 )
       ) %>% 
-      match_rows(defns, "whatevz UP{4,}", mnum) %>% 
+      match_rows(defns, "whatevz UP{4,}", mnum, wildcards = c("whatevz")) %>% 
       nrow(),
     stocks %>% 
       group_by(ticker)%>% 
@@ -39,7 +39,7 @@ test_that("match_rows works with keep_all_rows", {
                   TRUE ~ 'DOWN'
                 )
       ) %>% 
-      match_rows(defns, "whatevz UP{4,}", mnum, keep_all_rows=TRUE) %>% 
+      match_rows(defns, "whatevz UP{4,}", mnum, keep_all_rows=TRUE, wildcards = c("whatevz")) %>% 
       filter(!is.na(mnum)) %>% 
       nrow())
 })

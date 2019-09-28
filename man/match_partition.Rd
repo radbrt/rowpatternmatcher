@@ -4,7 +4,7 @@
 \alias{match_partition}
 \title{Match rows per group}
 \usage{
-match_partition(df, definitions, rx, match_name = NULL,
+match_partition(df, definitions, rx, all_nicks, match_name = NULL,
   keep_all_rows = FALSE)
 }
 \arguments{
@@ -13,6 +13,8 @@ match_partition(df, definitions, rx, match_name = NULL,
 \item{definitions}{Column containing the definition of rows}
 
 \item{rx}{Simple regex-like statement to filter for - quoted.}
+
+\item{all_nicks}{All unique elements in `definitions` column}
 
 \item{match_name}{Optional column name for match-number, defaults to NULL.}
 

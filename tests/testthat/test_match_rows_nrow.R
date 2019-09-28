@@ -14,7 +14,7 @@ test_that("match_rows returns number of rows", {
                              TRUE ~ 'DOWN'
                            )
                  ) %>% 
-                 match_rows(defns, " whatevz UP{4,}") %>% 
+                 match_rows(defns, " whatevz UP{4,}", wildcards = "whatevz") %>% 
                  nrow(), 77)
 })
 

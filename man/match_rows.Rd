@@ -4,7 +4,7 @@
 \alias{match_rows}
 \title{Row matcher}
 \usage{
-match_rows(df, definitions, rx, match_name = NULL,
+match_rows(df, definitions, rx, match_name = NULL, wildcards = NULL,
   keep_all_rows = FALSE)
 }
 \arguments{
@@ -15,6 +15,8 @@ match_rows(df, definitions, rx, match_name = NULL,
 \item{rx}{Simple regex-like statement to filter for - quoted.}
 
 \item{match_name}{Optional column name for match-number. Defaults to NULL, meaning no column will be created.}
+
+\item{wildcards}{keywords (nicknames) in your pattern (`rx`) that should match any rows}
 
 \item{keep_all_rows}{Boolean allows you to return all rows, uncluding nonmatching rows. 
 Meaninless if match_name is not set. Default FALSE.}
