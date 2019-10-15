@@ -36,6 +36,7 @@ match_number <- function(matchlist) {
 #' @param df Data frame to subset
 #' @param ranges List of possibly overlapping ranges of rows to select
 subset_from_ranges <- function(df, ranges) {
-  unique_row_numbers <- unique(unlist(ranges))
+  unique_row_numbers <- unique(unlist(ranges, use.names = FALSE))
   df[unique_row_numbers,]
 }
+

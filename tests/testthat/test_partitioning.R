@@ -15,7 +15,7 @@ stocks %>%
               TRUE ~ 'DOWN'
             )
   ) %>% 
-  match_rows(defns, "whatevz UP{4,}", mnum) %>% 
+  match_rows(defns, "whatevz UP{4,}", mnum, wildcards = c("whatevz")) %>% 
   filter(ticker=='MSFT') %>% 
   nrow(), 77)
 })
